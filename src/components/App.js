@@ -1,15 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import "./../styles/App.css";
+import Task from "./Task";
 
-function App() 
-{
+function App() {
+	const [task, setTask] = useState("");
+	const [taskList, setTaskList] = useState([]);
 	return (
-	<div id="main">
-	//Do not alter main div
-	//Please do not alter the functional component as tests depend on the type of component.
-	</div>
+		<div id="main">
+			<div className="inputrow">
+				<textarea
+					className="task"
+					id="task"
+					onChange={(e) => setTask(e.target.value)}
+					value={task}
+				></textarea>
+
+				<button
+					className="btn"
+					id="btn"
+					onClick={() => {
+						if (task !== "") {
+							setTaskList([...taskList, task]);
+							setTask("");
+						}
+					}}
+				>
+					Add
+				</button>
+			</div>
+			<div className="tasks">
+				{taskList.map((tsk, tskidx) => {
+					return (
+						<Task
+							className="list"
+							tsk={tsk}
+							tskidx={tskidx}
+							taskList={taskList}
+							setTaskList={setTaskList}
+						/>
+					);
+				})}
+			</div>
+		</div>
 	);
 }
-
 
 export default App;

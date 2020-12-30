@@ -1,16 +1,71 @@
 h1 {
-    color: #27aedb;
-    text-align: center;
-    }
-    
-
-button{
-    color: #27aedb;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
+	color: #27aedb;
+	text-align: center;
 }
 
-.bg-pink{
-	background-color:pink;
+button {
+	color: #27aedb;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+}
+
+.bg-pink {
+	background-color: pink;
+}
+.inputrow {
+	/* display: flex;
+	flex-direction: column; */
+	/* justify-content: center; */
+	/* margin: auto;
+	width: 50%; */
+	display: flex;
+	justify-content: center;
+	padding: 20px;
+	/* padding: 10px; */
+}
+.task {
+	padding: 10px;
+	margin-right: 10px;
+	width: 400px;
+}
+.btn {
+	height: 30px;
+	margin-top: 10px;
+}
+.tasks {
+	/* text-align: center; */
+	/* background-color: red */
+	padding: 0px 20%;
+	margin: auto;
+	padding-top: 10px;
+	word-wrap: break-word;
+}
+.singleTsk {
+	/* border: 2px solid black; */
+	display: flex;
+	margin: 3px 0px;
+	padding: 5px 5px;
+	font-size: 20px;
+	justify-content: space-between;
+}
+.btns {
+	margin: 0px 5px;
+}
+.edit {
+	margin-right: 10px;
+}
+.editbox {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+.editbox textarea {
+	/* background-color: black; */
+	height: 50px;
+	width: 400px;
+}
+.editbox button {
+	width: 70px;
+	margin-top: 5px;
 }
