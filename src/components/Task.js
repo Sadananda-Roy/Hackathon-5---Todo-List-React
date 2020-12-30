@@ -17,7 +17,7 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 
 	return (
 		<>
-			<div className="singleTsk">
+			<div className="list singleTsk">
 				{`${tskidx + 1}. ${tsk}`}
 				<div className="btns">
 					<button className="edit" onClick={(e) => editbtn()}>
@@ -35,7 +35,6 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 						className="editarea"
 						defaultValue={tsk}
 						onChange={(e) => {
-							// console.log("taregt", e.target);
 							document.getElementById("save").disabled =
 								e.target.value === "" ? true : false;
 						}}
