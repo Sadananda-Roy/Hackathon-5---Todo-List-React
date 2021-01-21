@@ -32,7 +32,7 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 				<div className="editbox">
 					<textarea
 						id="editarea"
-						className="editarea"
+						className="editTask"
 						defaultValue={tsk}
 						onChange={(e) => {
 							document.getElementById("save").disabled =
@@ -40,7 +40,7 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 						}}
 					></textarea>
 					<button
-						className="save"
+						className="saveTask "
 						id="save"
 						onClick={() => {
 							const editedTask = document.getElementById("editarea").value;
