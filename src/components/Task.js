@@ -17,7 +17,7 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 
 	return (
 		<>
-			<div className="singleTsk">
+			<div className="list">
 				{`${tskidx + 1}. ${tsk}`}
 				<div className="btns">
 					<button className="edit" onClick={(e) => editbtn()}>

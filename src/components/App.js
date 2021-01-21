@@ -18,6 +18,7 @@ function App() {
 				<button
 					className="btn"
 					id="btn"
+					disabled={task.trim() === ""}
 					onClick={() => {
 						if (task.trim() !== "") {
 							setTaskList([...taskList, task]);
