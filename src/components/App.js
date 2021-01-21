@@ -19,7 +19,7 @@ function App() {
 					className="btn"
 					id="btn"
 					onClick={() => {
-						if (task !== "") {
+						if (task.trim() !== "") {
 							setTaskList([...taskList, task]);
 							setTask("");
 						}

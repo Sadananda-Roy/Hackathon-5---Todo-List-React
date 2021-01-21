@@ -36,7 +36,7 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 						defaultValue={tsk}
 						onChange={(e) => {
 							document.getElementById("save").disabled =
-								e.target.value === "" ? true : false;
+								e.target.value.trim() !== "" ? false : true;
 						}}
 					></textarea>
 					<button
