@@ -1,49 +1,50 @@
 import React, { useState } from "react";
 import "./../styles/App.css";
-import Task from "./Task";
+import ListItem from "./ListItem";
 
 function App() {
-	const [task, setTask] = useState("");
-	const [taskList, setTaskList] = useState([]);
-	return (
-		<div id="main">
-			<div className="inputrow">
-				<textarea
-					className="task"
-					id="task"
-					onChange={(e) => setTask(e.target.value)}
-					value={task}
-				></textarea>
+	const [items, setItems] = useState([]);
+	const [newItem, setNewItem] = useState("");
+	const addItem = () => {
+		items.push(newItem);
+		setItems([...items]);
+		setNewItem("");
 
-				<button
-					className="btn"
-					id="btn"
-					disabled={task.trim() === ""}
-					onClick={() => {
-						if (task.trim() !== "") {
-							setTaskList([...taskList, task]);
-							setTask("");
-						}
-					}}
-				>
-					Add
-				</button>
-			</div>
-			<div className="tasks">
-				{taskList.map((tsk, tskidx) => {
-					return (
-						<Task
-							className="list"
-							tsk={tsk}
-							tskidx={tskidx}
-							taskList={taskList}
-							setTaskList={setTaskList}
-						/>
-					);
-				})}
-			</div>
-		</div>
+	};
+	const newItemChanged = (evt) => {
+		setNewItem(evt.target.value);
+	};
+	const deleteHandler = (itemIdx) => {
+		items.splice(itemIdx, 1);
+		setItems([...items]);
+	}
+	const editHandler = (editedValue, itemIdx) => {
+		items[itemIdx]=editedValue;
+		setItems([...items]);
+	}
+	return (
+	<div id="main">
+		<textarea 
+			id="task" 
+			onChange={newItemChanged} 
+			placeholder="New Item" 
+			value={newItem}
+			></textarea>
+		<button id="btn" onClick={addItem} disabled={newItem.trim().length===0}>
+			Add Item
+		</button>
+		{items.map((item, idx) => (
+			<ListItem 
+				item = {item} 
+				key={`${item}_${idx}`} 
+				idx={idx}
+				editHandler={editHandler} 
+				deleteHandler={deleteHandler} 
+			/>
+			))}
+	</div>
 	);
 }
+
 
 export default App;
