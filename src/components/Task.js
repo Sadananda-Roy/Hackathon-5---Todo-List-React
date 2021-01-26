@@ -9,16 +9,23 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 		setEdit(!edit);
 	};
 	const deletebtn = (idx) => {
-		console.log("delete", idx);
-		console.log(idx);
-		taskList.splice(idx, 1);
-		setTaskList([...taskList]);
+		//>on clicking delete
+		const idToDelete = taskList[tskidx]._id;
+		console.log("idTOdelete", idToDelete);
+		fetch(`http://localhost:8080/todo/${idToDelete}`, {
+			method: "DELETE",
+			credentials: "include",
+		}).then((r) => {
+			taskList.splice(idx, 1);
+			setTaskList([...taskList]);
+		});
 	};
 
 	return (
 		<>
 			<div className="singleTsk">
-				{`${tskidx + 1}. ${tsk}`}
+				<span>{`${tskidx + 1}. ${tsk.task}`}</span>
+
 				<div className="btns">
 					<button className="edit" onClick={(e) => editbtn()}>
 						Edit
@@ -33,7 +40,7 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 					<textarea
 						id="editarea"
 						className="editTask"
-						defaultValue={tsk}
+						defaultValue={tsk.task}
 						onChange={(e) => {
 							document.getElementById("save").disabled =
 								e.target.value.trim() !== "" ? false : true;
@@ -43,13 +50,23 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 						className="saveTask "
 						id="save"
 						onClick={() => {
+							//>Edit an existing task
 							const editedTask = document.getElementById("editarea").value;
 							if (editedTask !== "") {
-								console.log("idx ", tskidx);
-								setTask(editedTask);
-								taskList.splice(tskidx, 1, editedTask);
-								setTaskList([...taskList]);
-								setEdit(false);
+								const idToEdit = taskList[tskidx]._id;
+								fetch(`http://localhost:8080/todo/${idToEdit}`, {
+									method: "PUT",
+									body: JSON.stringify({ task: editedTask }),
+									headers: { "Content-Type": "application/json" },
+									credentials: "include",
+								})
+									.then((r) => r.json())
+									.then((resp) => {
+										setTask(editedTask);
+										taskList.splice(tskidx, 1, resp);
+										setTaskList([...taskList]);
+										setEdit(false);
+									});
 							}
 						}}
 					>
