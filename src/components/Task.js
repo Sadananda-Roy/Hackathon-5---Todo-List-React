@@ -5,24 +5,12 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 	const [edit, setEdit] = useState(false);
 	const [task, setTask] = useState(tsk);
 
-	useEffect(() => {
-		fetch("http://localhost:8080/todo", { credentials: "include" })
-			.then((r) => r.json())
-			.then((arr) => {
-				// const sortedArr = arr.sort((a,b) => a.) //>incomplete (sort acc. creation time)
-				//const allTasks = arr.map((item) => item.task); //note - gets the task for each item
-				setTaskList(arr);
-				console.log("running");
-			});
-	}, []);
-
 	const editbtn = () => {
 		setEdit(!edit);
 	};
 	const deletebtn = (idx) => {
 		//>on clicking delete
 		const idToDelete = taskList[tskidx]._id;
-		console.log("idTOdelete", idToDelete);
 		fetch(`http://localhost:8080/todo/${idToDelete}`, {
 			method: "DELETE",
 			credentials: "include",
@@ -34,7 +22,7 @@ function Task({ tsk, tskidx, taskList, setTaskList }) {
 
 	return (
 		<>
-			<div className="singleTsk">
+			<div className="singleTsk" key={tsk._id}>
 				<span>{`${tskidx + 1}. ${tsk.task}`}</span>
 
 				<div className="btns">

@@ -11,22 +11,34 @@ function App() {
 	const [userName, setUsername] = useState(undefined);
 
 	const getusername = () => {
-		return fetch("http://localhost:8080/userinfo", { credentials: "include" })
-			.then((r) => {
-				if (r.ok) {
-					return r.json();
-				} else {
-					setLoggedin(false);
-					setUsername(undefined);
-					return { success: false };
-				}
-			})
-			.then((r) => {
-				if (r.success !== false) {
-					setLoggedin(true);
-					setUsername(r.userName);
-				}
-			});
+		return (
+			fetch("http://localhost:8080/userinfo", { credentials: "include" })
+				///credentials: "include" necessary when frontend and backend runnin on different hosts
+				.then((r) => {
+					if (r.ok) {
+						return r.json();
+					} else {
+						setLoggedin(false);
+						setUsername(undefined);
+						return { success: false };
+					}
+				})
+				.then((r) => {
+					///if fetch was fulfilled
+					if (r.success !== false) {
+						setLoggedin(true);
+						setUsername(r.userName);
+						///rendering all the todos
+						fetch("http://localhost:8080/todo", { credentials: "include" })
+							.then((r) => r.json())
+							.then((arr) => {
+								// const sortedArr = arr.sort((a,b) => a.) //>incomplete (sort acc. creation time)
+								//const allTasks = arr.map((item) => item.task); //note - gets the task for each item
+								setTaskList(arr);
+							});
+					}
+				})
+		);
 	};
 
 	useEffect(() => {
@@ -42,7 +54,6 @@ function App() {
 			credentials: "include",
 		})
 			.then((r) => {
-				console.log("first then", r);
 				if (r.ok) {
 					return { success: true };
 				} else {
@@ -50,7 +61,6 @@ function App() {
 				}
 			})
 			.then((r) => {
-				console.log("second json", r);
 				if (r.success === true) {
 					return getusername();
 				} else {
@@ -82,8 +92,10 @@ function App() {
 	return loggedin ? (
 		<div id="main">
 			<div className="user">
-				<div>{userName}</div>
-				<button onClick={logoutHandler}>Logout</button>
+				<p>
+					Username: <b>{userName}</b>
+					<button onClick={logoutHandler}>Logout</button>
+				</p>
 			</div>
 			<div className="inputrow">
 				<textarea
@@ -122,6 +134,7 @@ function App() {
 				{taskList.map((tsk, tskidx) => {
 					return (
 						<Task
+							key={tsk._id}
 							className="list"
 							tsk={tsk}
 							tskidx={tskidx}
