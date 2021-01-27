@@ -8,15 +8,29 @@ function App() {
 	const [taskList, setTaskList] = useState([]);
 	const [loggedin, setLoggedin] = useState(false);
 	const [error, setError] = useState("");
+	const [userName, setUsername] = useState(undefined);
+
+	const getusername = () => {
+		return fetch("http://localhost:8080/userinfo", { credentials: "include" })
+			.then((r) => {
+				if (r.ok) {
+					return r.json();
+				} else {
+					setLoggedin(false);
+					setUsername(undefined);
+					return { success: false };
+				}
+			})
+			.then((r) => {
+				if (r.success !== false) {
+					setLoggedin(true);
+					setUsername(r.userName);
+				}
+			});
+	};
 
 	useEffect(() => {
-		fetch("http://localhost:8080/todo", { credentials: "include" })
-			.then((r) => r.json())
-			.then((arr) => {
-				// const sortedArr = arr.sort((a,b) => a.) //>incomplete (sort acc. creation time)
-				//const allTasks = arr.map((item) => item.task); //note - gets the task for each item
-				setTaskList(arr);
-			});
+		getusername();
 	}, []);
 
 	//>SignUp/SignIn
@@ -38,7 +52,7 @@ function App() {
 			.then((r) => {
 				console.log("second json", r);
 				if (r.success === true) {
-					setLoggedin(true);
+					return getusername();
 				} else {
 					setError(r.error);
 				}
@@ -53,8 +67,24 @@ function App() {
 		signInOrUp("http://localhost:8080/signup", userName, password);
 	};
 
+	//>logout handler
+	const logoutHandler = () => {
+		return fetch("http://localhost:8080/logout", {
+			credentials: "include",
+		}).then((r) => {
+			if (r.ok) {
+				setLoggedin(false);
+				setUsername(undefined);
+			}
+		});
+	};
+
 	return loggedin ? (
 		<div id="main">
+			<div className="user">
+				<div>{userName}</div>
+				<button onClick={logoutHandler}>Logout</button>
+			</div>
 			<div className="inputrow">
 				<textarea
 					className="task"

@@ -1,9 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/App.css";
 
 function Task({ tsk, tskidx, taskList, setTaskList }) {
 	const [edit, setEdit] = useState(false);
 	const [task, setTask] = useState(tsk);
+
+	useEffect(() => {
+		fetch("http://localhost:8080/todo", { credentials: "include" })
+			.then((r) => r.json())
+			.then((arr) => {
+				// const sortedArr = arr.sort((a,b) => a.) //>incomplete (sort acc. creation time)
+				//const allTasks = arr.map((item) => item.task); //note - gets the task for each item
+				setTaskList(arr);
+				console.log("running");
+			});
+	}, []);
 
 	const editbtn = () => {
 		setEdit(!edit);

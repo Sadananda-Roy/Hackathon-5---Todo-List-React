@@ -139,6 +139,11 @@ app.get("/logout", (req, res) => {
 	}
 });
 
+app.get("/userinfo", authMw, async (req, res) => {
+	const user = await userModel.findById(req.session.userId);
+	res.send({ userName: user.userName });
+});
+
 app.listen(8080, () => {
 	console.log("app listening on port 8080");
 });
