@@ -98,7 +98,7 @@ button {
 	display: flex;
 	flex-direction: column;
 	width: 50%;
-	background-color: #329f5b;
+	background-color: #2274a5;
 	padding: 20px;
 	border-radius: 5px;
 	align-items: center;
@@ -115,7 +115,7 @@ input.signup_elem {
 }
 .signup_container h1 {
 	font-size: 30px;
-	color: #e5c2c0;
+	color: #fff;
 	font-family: hack;
 	margin: 10px;
 }
